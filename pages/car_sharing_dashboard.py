@@ -109,9 +109,10 @@ st.markdown("# 🚗 CAR SHARING DASHBOARD")
 st.markdown('<p style="color:#4a5568;font-size:0.75rem;letter-spacing:0.2em">REAL-TIME ANALYTICS INTERFACE</p>', unsafe_allow_html=True)
 
 # ── Metrics ───────────────────────────────────────────────────────────────────
-price_col    = 'price'    if 'price'    in trips_merged.columns else None
-distance_col = 'distance' if 'distance' in trips_merged.columns else None
-model_col    = 'model'    if 'model'    in trips_merged.columns else brand_col
+# Auto-detect column names
+price_col    = next((c for c in trips_merged.columns if 'price' in c.lower() or 'revenue' in c.lower() or 'cost' in c.lower()), None)
+distance_col = next((c for c in trips_merged.columns if 'distance' in c.lower() or 'km' in c.lower()), None)
+model_col    = 'model' if 'model' in trips_merged.columns else brand_col
 
 total_trips    = len(trips_merged)
 total_distance = trips_merged[distance_col].sum() if distance_col else 0
